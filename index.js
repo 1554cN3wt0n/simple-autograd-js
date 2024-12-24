@@ -1,16 +1,23 @@
 const { Matrix } = require("./src/matrix");
-const { Linear, Sigmoid, Sequential, Tanh, ReLU } = require("./src/nn");
-const { MeanSquareErrorLoss } = require("./src/loss");
+const {
+  Linear,
+  Sigmoid,
+  Sequential,
+  Tanh,
+  ReLU,
+  Softmax,
+} = require("./src/nn");
+const { MeanSquareErrorLoss, CrossEntropyLoss } = require("./src/loss");
 const { GradientDescent } = require("./src/optim");
 
 let model = new Sequential([
-  new Linear(2, 10),
-  new ReLU(),
-  new Linear(10, 10),
-  new ReLU(),
-  new Linear(10, 2),
+  new Linear(2, 5),
+  new Tanh(),
+  new Linear(5, 2),
+  new Tanh(),
+  new Softmax(),
 ]);
-let loss = new MeanSquareErrorLoss();
+let loss = new CrossEntropyLoss();
 let optim = new GradientDescent(model.parameters(), 0.1);
 
 let x = new Matrix(4, 2);
@@ -19,7 +26,7 @@ let y = new Matrix(4, 2);
 x.set_data([0, 0, 0, 1, 1, 0, 1, 1]);
 y.set_data([1, 0, 0, 1, 0, 1, 1, 0]);
 
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 20; i++) {
   optim.zero_grad();
   let o = model.forward(x);
   let l = loss.loss(o, y);
@@ -27,3 +34,6 @@ for (let i = 0; i < 10; i++) {
   console.log(l.data);
   optim.step();
 }
+
+let o = model.forward(x);
+console.log(o);

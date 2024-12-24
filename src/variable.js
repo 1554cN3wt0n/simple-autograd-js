@@ -57,6 +57,26 @@ class PowBackward {
   }
 }
 
+class LogBackward {
+  constructor(x) {
+    this.x = x;
+  }
+
+  call(loss) {
+    this.x.backward(loss / this.x.data);
+  }
+}
+
+class ExpBackward {
+  constructor(x) {
+    this.x = x;
+  }
+
+  call(loss) {
+    this.x.backward(loss * Math.exp(this.x.data));
+  }
+}
+
 class Variable {
   constructor(data, backward_fn) {
     this.data = data;
@@ -82,6 +102,14 @@ class Variable {
 
   pow(n) {
     return new Variable(this.data ** n, new PowBackward(this, n));
+  }
+
+  log() {
+    return new Variable(Math.log(this.data), new LogBackward(this));
+  }
+
+  exp() {
+    return new Variable(Math.exp(this.data), new ExpBackward(this));
   }
 
   zero_grad() {

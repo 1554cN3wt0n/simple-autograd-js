@@ -86,6 +86,28 @@ class Matrix {
     return res;
   }
 
+  dot(m) {
+    let res = new Matrix(this.rows, m.cols);
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < m.cols; j++) {
+        let s = new Variable(0);
+        for (let k = 0; k < this.cols; k++) {
+          s = s.add(this.data[i * this.cols + k].mul(m.data[k * m.cols + j]));
+        }
+        res.data[i * m.cols + j] = s;
+      }
+    }
+    return res;
+  }
+
+  apply_unitary_fn(fn) {
+    let res = new Matrix(this.rows, this.cols);
+    for (let i = 0; i < this.rows * this.cols; i++) {
+      res.data[i] = fn(this.data[i]);
+    }
+    return res;
+  }
+
   sum() {
     let s = new Variable(0);
     this.data.forEach((elem) => {
@@ -107,24 +129,24 @@ class Matrix {
     return res;
   }
 
-  dot(m) {
-    let res = new Matrix(this.rows, m.cols);
-    for (let i = 0; i < this.rows; i++) {
-      for (let j = 0; j < m.cols; j++) {
-        let s = new Variable(0);
-        for (let k = 0; k < this.cols; k++) {
-          s = s.add(this.data[i * this.cols + k].mul(m.data[k * m.cols + j]));
-        }
-        res.data[i * m.cols + j] = s;
-      }
+  log() {
+    let res = new Matrix(this.rows, this.cols);
+    for (let i = 0; i < this.rows * this.cols; i++) {
+      res.data[i] = this.data[i].log();
     }
     return res;
   }
 
-  apply_unitary_fn(fn) {
+  softmax() {
     let res = new Matrix(this.rows, this.cols);
-    for (let i = 0; i < this.rows * this.cols; i++) {
-      res.data[i] = fn(this.data[i]);
+    for (let i = 0; i < this.rows; i++) {
+      let s = new Variable(0);
+      for (let j = 0; j < this.cols; j++) {
+        s = s.add(this.data[i * this.cols + j].exp());
+      }
+      for (let j = 0; j < this.cols; j++) {
+        res.data[i * this.cols + j] = this.data[i * this.cols + j].exp().div(s);
+      }
     }
     return res;
   }

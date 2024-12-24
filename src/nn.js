@@ -50,6 +50,17 @@ class ReLU {
   }
 }
 
+class Softmax {
+  constructor() {}
+
+  forward(x) {
+    return x.softmax();
+  }
+  parameters() {
+    return [];
+  }
+}
+
 class Sequential {
   constructor(layers) {
     this.layers = layers;
@@ -76,5 +87,6 @@ module.exports = {
   Sigmoid,
   Tanh,
   ReLU,
+  Softmax,
   Sequential,
 };
