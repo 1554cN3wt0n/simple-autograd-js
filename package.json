@@ -1,0 +1,22 @@
+{
+  "name": "simple-autograd",
+  "version": "1.0.0",
+  "description": "Simple autograd written in JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1554cN3wt0n/simple-autograd-js.git"
+  },
+  "keywords": [
+    "autograd"
+  ],
+  "author": "Newton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/1554cN3wt0n/simple-autograd-js/issues"
+  },
+  "homepage": "https://github.com/1554cN3wt0n/simple-autograd-js#readme"
+}
