@@ -11,7 +11,7 @@ let model = new Sequential([
   new Linear(5, 1),
 ]);
 let loss = new MeanSquareErrorLoss();
-let optim = new GradientDescent(model.parameters(), 0.1);
+let optim = new GradientDescent(model.parameters(), 0.01);
 
 let x = new Matrix(50, 2);
 let y = new Matrix(50, 1);
